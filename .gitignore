@@ -1,5 +1,6 @@
 *.pyc
 *.sh
+*.swp
 
 bin/
 include/
