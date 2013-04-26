@@ -8,6 +8,27 @@
 {% endblock %}
 
 {% block content %}
+<h4>Add a entry:</h4>
+<form class="form-horizontal" data-bind="submit:addEntry">
+    <div class="control-group">
+        <label class="control-label" for="inputName">Name</label>
+        <div class="controls">
+            <input type="text" id="inputName" placeholder="Name" data-bind='value:nameToAdd, valueUpdate: "afterkeydown"'>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="inputContent">Content</label>
+        <div class="controls">
+            <textarea id="inputText" placeholder="Content" data-bind='value:contentToAdd, valueUpdate: "afterkeydown"'></textarea>
+        </div>
+    </div>
+    <div class="control-group">
+        <div class="controls">
+            <button type="submit" class="btn" data-bind="enable: nameToAdd().length > 0 && contentToAdd().length > 0">Add entry</button>
+        </div>
+    </div>
+</form>
+<h4>Entries:</h4>
 <table class="table table-striped table-hover">
     <thead>
         <tr>
@@ -33,11 +54,21 @@
     function EntriesViewModel() {
         var self = this;
         self.entries = ko.observableArray([]);
+        self.nameToAdd = ko.observable("");
+        self.contentToAdd = ko.observable("");
 
         $.getJSON("/entries/", function(allEntries) {
             var mappedEntries = $.map(allEntries, function(entry) { return new Entry(entry.name, entry.content) });
             self.entries(mappedEntries);
         });
+
+        self.addEntry = function() {
+            if ((this.nameToAdd() != "") && (this.contentToAdd() != "")) {
+                this.entries.push(new Entry(this.nameToAdd(), this.contentToAdd()));
+            }
+            this.nameToAdd("");
+            this.contentToAdd("");
+        };
     }
 
     ko.applyBindings(new EntriesViewModel());
