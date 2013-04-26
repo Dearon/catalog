@@ -5,6 +5,8 @@ from django.views.generic.base import TemplateView
 from django.contrib import admin
 admin.autodiscover()
 
+from entries.views import EntriesJSONView
+
 urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'catalog.views.home', name='home'),
@@ -16,4 +18,5 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', TemplateView.as_view(template_name='home.html'), name='home'),
+    url(r'^entries/$', EntriesJSONView.as_view(), name='entries'),
 )
