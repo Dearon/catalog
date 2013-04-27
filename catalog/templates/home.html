@@ -5,6 +5,7 @@
 {% block scripts %}
 <script src="/assets/knockout/knockout-2.2.1.js" type="text/javascript"></script>
 <script src="/assets/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/assets/js/django.js" type="text/javascript"></script>
 {% endblock %}
 
 {% block content %}
@@ -24,7 +25,7 @@
     </div>
     <div class="control-group">
         <div class="controls">
-            <button type="submit" class="btn" data-bind="enable: nameToAdd().length > 0 && contentToAdd().length > 0">Add entry</button>
+            <button type="submit" class="btn" data-bind="enable: nameToAdd().length > 0 && nameToAdd().length <= 120 && contentToAdd().length > 0">Add entry</button>
         </div>
     </div>
 </form>
@@ -53,6 +54,7 @@
 
     function EntriesViewModel() {
         var self = this;
+        self.csrftoken = getCookie('csrftoken');
         self.entries = ko.observableArray([]);
         self.nameToAdd = ko.observable("");
         self.contentToAdd = ko.observable("");
@@ -63,9 +65,19 @@
         });
 
         self.addEntry = function() {
+            $.ajax({
+                type: "POST",
+                url: "/entries/add/",
+                data: {name: self.nameToAdd, content: self.contentToAdd},
+                beforeSend: function(xhr, settings) {
+                    xhr.setRequestHeader("X-CSRFToken", self.csrftoken);
+                }
+            }).done(function(data) {});
+
             if ((this.nameToAdd() != "") && (this.contentToAdd() != "")) {
                 this.entries.push(new Entry(this.nameToAdd(), this.contentToAdd()));
             }
+
             this.nameToAdd("");
             this.contentToAdd("");
         };
