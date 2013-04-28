@@ -9,7 +9,6 @@ function EntriesViewModel() {
     var self = this;
     self.csrftoken = getCookie('csrftoken');
     self.entries = ko.observableArray([]);
-    self.idToAdd = ko.observable("");
     self.nameToAdd = ko.observable("");
     self.contentToAdd = ko.observable("");
 
@@ -17,6 +16,11 @@ function EntriesViewModel() {
         var mappedEntries = $.map(allEntries, function(entry) { return new Entry(entry.id, entry.name, entry.content) });
         self.entries(mappedEntries);
     });
+
+    self.resetFields = function() {
+        self.nameToAdd("");
+        self.contentToAdd("");
+    };
 
     self.addEntry = function() {
         if ((self.nameToAdd() != "") && (self.contentToAdd() != "")) {
@@ -29,10 +33,8 @@ function EntriesViewModel() {
                 },
                 success: function(data) {
                     self.entries.push(new Entry(data.id, data.name, data.content));
-
-                    self.idToAdd("");
-                    self.nameToAdd("");
-                    self.contentToAdd("");
+                    self.resetFields();
+                    $('#newModal').modal('hide');
                 }
             });
 
