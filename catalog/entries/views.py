@@ -10,9 +10,9 @@ class EntriesJSONView(JSONResponseMixin, ListView):
     def get(self, request, *args, **kwargs):
         self.queryset = self.get_queryset()
 
-        context_dict = {}
+        context_list = list()
         for entry in self.queryset:
-            context_dict[entry.pk] = {'id': entry.pk, 'name': entry.name, 'content': entry.content}
+            context_list.append({'id': entry.pk, 'name': entry.name, 'content': entry.content})
 
         return self.render_json_response(context_dict)
 
