@@ -5,7 +5,7 @@ from django.views.generic.base import TemplateView
 from django.contrib import admin
 admin.autodiscover()
 
-from entries.views import EntriesJSONView, AddEntryView, EditEntryView, RemoveEntryView
+from entries.views import EntriesHomeView, EntriesView, AddEntryView, EditEntryView, RemoveEntryView
 
 urlpatterns = patterns('',
     # Examples:
@@ -17,8 +17,8 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', TemplateView.as_view(template_name='home.html'), name='home'),
-    url(r'^entries/$', EntriesJSONView.as_view(), name='entries'),
+    url(r'^$', EntriesHomeView.as_view(), name='home'),
+    url(r'^entries/$', EntriesView.as_view(), name='entries'),
     url(r'^entries/add/$', AddEntryView.as_view(), name='add_entry'),
     url(r'^entries/remove/$', RemoveEntryView.as_view(), name='remove_entry'),
     url(r'^entries/edit/$', EditEntryView.as_view(), name='edit_entry'),

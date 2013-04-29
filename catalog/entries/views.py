@@ -1,10 +1,19 @@
-from django.views.generic import ListView, View
+from django.views.generic import TemplateView, ListView, View
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 from braces.views import JSONResponseMixin
 
 from .models import Entry
 
-class EntriesJSONView(JSONResponseMixin, ListView):
+class EntriesHomeView(TemplateView):
+    template_name = 'home.html'
+
+    @method_decorator(ensure_csrf_cookie)
+    def get(self, request, *args, **kwargs):
+        return super(EntriesHomeView, self).get(request, *args, **kwargs)
+
+class EntriesView(JSONResponseMixin, ListView):
     model = Entry
 
     def get(self, request, *args, **kwargs):
