@@ -18,7 +18,7 @@ function EntriesViewModel() {
         self.entries(mappedEntries);
     });
 
-    self.filteredEntries = ko.computed(function() {
+    self.visibleEntries = ko.computed(function() {
         var filter = self.filter().toLowerCase();
 
         if (!filter) {
