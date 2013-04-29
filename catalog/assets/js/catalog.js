@@ -11,11 +11,24 @@ function EntriesViewModel() {
     self.entries = ko.observableArray([]);
     self.nameToAdd = ko.observable("");
     self.contentToAdd = ko.observable("");
+    self.filter = ko.observable("");
 
     $.getJSON("/entries/", function(allEntries) {
         var mappedEntries = $.map(allEntries, function(entry) { return new Entry(entry.id, entry.name, entry.content) });
         self.entries(mappedEntries);
     });
+
+    self.filteredEntries = ko.computed(function() {
+        var filter = self.filter().toLowerCase();
+
+        if (!filter) {
+            return self.entries();
+        } else {
+            return ko.utils.arrayFilter(this.entries(), function(entry) {
+                return stringStartsWith(entry.name.toLowerCase(), filter);
+            });
+        }
+    }, this);
 
     self.resetFields = function() {
         self.nameToAdd("");
