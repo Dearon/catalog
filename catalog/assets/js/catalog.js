@@ -1,14 +1,15 @@
 function Entry(id, name, content) {
     var self = this;
-    self.id = id;
-    self.name = name;
-    self.content = content;
+    self.id = ko.observable(id);
+    self.name = ko.observable(name);
+    self.content = ko.observable(content);
 }
 
 function EntriesViewModel() {
     var self = this;
     self.csrftoken = getCookie('csrftoken');
     self.entries = ko.observableArray([]);
+    self.entryID = ko.observable("");
     self.nameToAdd = ko.observable("");
     self.contentToAdd = ko.observable("");
     self.filter = ko.observable("");
@@ -24,8 +25,8 @@ function EntriesViewModel() {
         if (!filter) {
             return self.entries();
         } else {
-            return ko.utils.arrayFilter(this.entries(), function(entry) {
-                return stringStartsWith(entry.name.toLowerCase(), filter);
+            return ko.utils.arrayFilter(self.entries(), function(entry) {
+                return stringStartsWith(entry.name().toLowerCase(), filter);
             });
         }
     }, this);
@@ -51,6 +52,39 @@ function EntriesViewModel() {
                 }
             });
 
+        }
+    };
+
+    self.showEditModal = function(entry) {
+        self.entryID(entry.id());
+        self.nameToAdd(entry.name());
+        self.contentToAdd(entry.content());
+        $('#editModal').modal('show');
+    };
+    
+    self.editEntry = function() {
+        if ((self.nameToAdd() != "") && (self.contentToAdd() != "")) {
+            $.ajax({
+                type: "POST",
+                url: "/entries/edit/",
+                data: { id: self.entryID, name: self.nameToAdd, content: self.contentToAdd },
+                beforeSend: function(xhr, settings) {
+                    xhr.setRequestHeader("X-CSRFToken", self.csrftoken);
+                },
+                success: function(data) {
+                    var entryID = self.entryID();
+
+                    ko.utils.arrayForEach(self.entries(), function(entry) {
+                        if (entry.id() == entryID) {
+                            entry.name(data.name);
+                            entry.content(data.content);
+                        }
+                    });
+
+                    self.resetFields();
+                    $('#editModal').modal('hide');
+                }
+            });
         }
     };
 

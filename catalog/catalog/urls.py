@@ -5,7 +5,7 @@ from django.views.generic.base import TemplateView
 from django.contrib import admin
 admin.autodiscover()
 
-from entries.views import EntriesJSONView, AddEntryView, RemoveEntryView
+from entries.views import EntriesJSONView, AddEntryView, EditEntryView, RemoveEntryView
 
 urlpatterns = patterns('',
     # Examples:
@@ -21,4 +21,5 @@ urlpatterns = patterns('',
     url(r'^entries/$', EntriesJSONView.as_view(), name='entries'),
     url(r'^entries/add/$', AddEntryView.as_view(), name='add_entry'),
     url(r'^entries/remove/$', RemoveEntryView.as_view(), name='remove_entry'),
+    url(r'^entries/edit/$', EditEntryView.as_view(), name='edit_entry'),
 )
