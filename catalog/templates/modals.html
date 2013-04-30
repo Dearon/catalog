@@ -1,0 +1,53 @@
+<div id="newModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="newModallLabel" aria-hidden="true">
+    <form class="form-horizontal" data-bind="submit:addEntry">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" data-bind="click: resetFields" aria-hidden="true">×</button>
+        <h3 id="newModalLabel">Add a new entry</h3>
+    </div>
+    <div class="modal-body">
+        <div class="control-group">
+            <label class="control-label" for="inputName">Name</label>
+            <div class="controls">
+                <input type="text" id="inputName" placeholder="Name" data-bind='value:nameToAdd, valueUpdate: "afterkeydown"'>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="inputContent">Content</label>
+            <div class="controls">
+                <textarea id="inputText" placeholder="Content" data-bind='value:contentToAdd, valueUpdate: "afterkeydown"'></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true" data-bind="click: resetFields">Dismiss changes</button>
+        <button class="btn btn-primary" data-bind="enable: nameToAdd().length > 0 && nameToAdd().length <= 120 && contentToAdd().length > 0">Add entry</button>
+    </div>
+    </form>
+</div>
+
+<div id="editModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="editModallLabel" aria-hidden="true">
+    <form class="form-horizontal" data-bind="submit:editEntry">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" data-bind="click: resetFields" aria-hidden="true">×</button>
+        <h3 id="newModalLabel">Edit a entry</h3>
+    </div>
+    <div class="modal-body">
+        <div class="control-group">
+            <label class="control-label" for="inputName">Name</label>
+            <div class="controls">
+                <input type="text" id="inputName" placeholder="Name" data-bind='value:nameToAdd, valueUpdate: "afterkeydown"'>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="inputContent">Content</label>
+            <div class="controls">
+                <textarea id="inputText" placeholder="Content" data-bind='value:contentToAdd, valueUpdate: "afterkeydown"'></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true" data-bind="click: resetFields">Dismiss changes</button>
+        <button class="btn btn-primary" data-bind="enable: nameToAdd().length > 0 && nameToAdd().length <= 120 && contentToAdd().length > 0">Edit entry</button>
+    </div>
+    </form>
+</div>
