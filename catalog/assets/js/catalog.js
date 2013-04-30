@@ -40,7 +40,7 @@ function EntriesViewModel() {
     };
 
     self.addEntry = function() {
-        if ((self.entryName() != "") && (self.entryContent() != "")) {
+        if (self.entryName() != "" && self.entryContent() != "") {
             $.ajax({
                 type: "POST",
                 url: "/entries/add/",
@@ -66,7 +66,7 @@ function EntriesViewModel() {
     };
     
     self.editEntry = function() {
-        if ((self.entryName() != "") && (self.entryContent() != "")) {
+        if (self.entryName() != "" && self.entryContent() != "") {
             $.ajax({
                 type: "POST",
                 url: "/entries/edit/",
