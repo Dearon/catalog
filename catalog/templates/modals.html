@@ -8,19 +8,19 @@
         <div class="control-group">
             <label class="control-label" for="inputName">Name</label>
             <div class="controls">
-                <input type="text" id="inputName" placeholder="Name" data-bind='value:nameToAdd, valueUpdate: "afterkeydown"'>
+                <input type="text" id="inputName" placeholder="Name" data-bind='value:entryName, valueUpdate: "afterkeydown"'>
             </div>
         </div>
         <div class="control-group">
             <label class="control-label" for="inputContent">Content</label>
             <div class="controls">
-                <textarea id="inputText" placeholder="Content" data-bind='value:contentToAdd, valueUpdate: "afterkeydown"'></textarea>
+                <textarea id="inputText" placeholder="Content" data-bind='value:entryContent, valueUpdate: "afterkeydown"'></textarea>
             </div>
         </div>
     </div>
     <div class="modal-footer">
         <button class="btn" data-dismiss="modal" aria-hidden="true" data-bind="click: resetFields">Dismiss changes</button>
-        <button class="btn btn-primary" data-bind="enable: nameToAdd().length > 0 && nameToAdd().length <= 120 && contentToAdd().length > 0">Add entry</button>
+        <button class="btn btn-primary" data-bind="enable: entryName().length > 0 && entryName().length <= 120 && entryContent().length > 0">Add entry</button>
     </div>
     </form>
 </div>
@@ -35,19 +35,19 @@
         <div class="control-group">
             <label class="control-label" for="inputName">Name</label>
             <div class="controls">
-                <input type="text" id="inputName" placeholder="Name" data-bind='value:nameToAdd, valueUpdate: "afterkeydown"'>
+                <input type="text" id="inputName" placeholder="Name" data-bind='value:entryName, valueUpdate: "afterkeydown"'>
             </div>
         </div>
         <div class="control-group">
             <label class="control-label" for="inputContent">Content</label>
             <div class="controls">
-                <textarea id="inputText" placeholder="Content" data-bind='value:contentToAdd, valueUpdate: "afterkeydown"'></textarea>
+                <textarea id="inputText" placeholder="Content" data-bind='value:entryContent, valueUpdate: "afterkeydown"'></textarea>
             </div>
         </div>
     </div>
     <div class="modal-footer">
         <button class="btn" data-dismiss="modal" aria-hidden="true" data-bind="click: resetFields">Dismiss changes</button>
-        <button class="btn btn-primary" data-bind="enable: nameToAdd().length > 0 && nameToAdd().length <= 120 && contentToAdd().length > 0">Edit entry</button>
+        <button class="btn btn-primary" data-bind="enable: entryName().length > 0 && entryName().length <= 120 && entryContent().length > 0">Edit entry</button>
     </div>
     </form>
 </div>

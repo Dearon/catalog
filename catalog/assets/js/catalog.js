@@ -9,9 +9,11 @@ function EntriesViewModel() {
     var self = this;
     self.csrftoken = getCookie('csrftoken');
     self.entries = ko.observableArray([]);
+
     self.entryID = ko.observable("");
-    self.nameToAdd = ko.observable("");
-    self.contentToAdd = ko.observable("");
+    self.entryName = ko.observable("");
+    self.entryContent = ko.observable("");
+
     self.filter = ko.observable("");
 
     $.getJSON("/entries/", function(allEntries) {
@@ -32,16 +34,17 @@ function EntriesViewModel() {
     }, this);
 
     self.resetFields = function() {
-        self.nameToAdd("");
-        self.contentToAdd("");
+        self.entryID("");
+        self.entryName("");
+        self.entryContent("");
     };
 
     self.addEntry = function() {
-        if ((self.nameToAdd() != "") && (self.contentToAdd() != "")) {
+        if ((self.entryName() != "") && (self.entryContent() != "")) {
             $.ajax({
                 type: "POST",
                 url: "/entries/add/",
-                data: { name: self.nameToAdd, content: self.contentToAdd },
+                data: { name: self.entryName, content: self.entryContent },
                 beforeSend: function(xhr, settings) {
                     xhr.setRequestHeader("X-CSRFToken", self.csrftoken);
                 },
@@ -57,17 +60,17 @@ function EntriesViewModel() {
 
     self.showEditModal = function(entry) {
         self.entryID(entry.id());
-        self.nameToAdd(entry.name());
-        self.contentToAdd(entry.content());
+        self.entryName(entry.name());
+        self.entryContent(entry.content());
         $('#editModal').modal('show');
     };
     
     self.editEntry = function() {
-        if ((self.nameToAdd() != "") && (self.contentToAdd() != "")) {
+        if ((self.entryName() != "") && (self.entryContent() != "")) {
             $.ajax({
                 type: "POST",
                 url: "/entries/edit/",
-                data: { id: self.entryID, name: self.nameToAdd, content: self.contentToAdd },
+                data: { id: self.entryID, name: self.entryName, content: self.entryContent },
                 beforeSend: function(xhr, settings) {
                     xhr.setRequestHeader("X-CSRFToken", self.csrftoken);
                 },
