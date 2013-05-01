@@ -77,12 +77,16 @@ function EntriesViewModel() {
                 success: function(data) {
                     var entryID = self.entryID();
 
-                    ko.utils.arrayForEach(self.entries(), function(entry) {
+                    var entry = ko.utils.arrayFirst(self.entries(), function(entry) {
                         if (entry.id() == entryID) {
-                            entry.name(data.name);
-                            entry.content(data.content);
+                            return true
+                        } else {
+                            return false
                         }
-                    });
+                    }, self);
+
+                    entry.name(data.name);
+                    entry.content(data.content);
 
                     self.resetFields();
                     $('#editModal').modal('hide');
